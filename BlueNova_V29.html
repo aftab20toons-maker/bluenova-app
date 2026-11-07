@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="theme-color" content="#071a3d">
+<title>BlueNova V29 — Premium Rewards</title>
+<style>
+:root{--bg:#06142e;--panel:#0d2450;--panel2:#102d60;--blue:#278cff;--cyan:#54d9ff;--text:#eef6ff;--muted:#91a9cc;--line:rgba(143,190,255,.16);--gold:#ffd36b}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-touch-callout:none}
+body{-webkit-user-select:none;user-select:none}
+input{-webkit-user-select:text;user-select:text}
+button,a,[role=button]{outline:none;-webkit-tap-highlight-color:transparent}
+button:focus,button:focus-visible,.range:focus{outline:none}html{overflow-x:hidden;-webkit-text-size-adjust:100%}body{overflow-x:hidden;margin:0;background:radial-gradient(ellipse at 50% -15%,#174a91 0,#0a2048 34%,#06142e 75%);color:var(--text);font-family:Inter,system-ui,-apple-system,Segoe UI,sans-serif;min-height:100vh}
+.app{max-width:480px;margin:auto;min-height:100vh;padding:20px 17px 105px}
+header{display:flex;align-items:center;justify-content:space-between;margin:5px 2px 25px}
+.brand{display:flex;align-items:center;gap:11px;font-weight:850;letter-spacing:.4px;font-size:20px}
+.logo{width:42px;height:42px;border-radius:15px;background:linear-gradient(145deg,#60d9ff,#1768e8 60%,#123c9b);box-shadow:0 8px 24px #1688ff55,inset 0 2px 5px #ffffff80;display:grid;place-items:center}
+.logo svg{width:27px;height:27px;filter:drop-shadow(0 2px 2px #06336c)}
+.profile{width:40px;height:40px;border-radius:14px;border:1px solid #75baff55;background:linear-gradient(145deg,#183d72,#0b1e43);display:grid;place-items:center;box-shadow:inset 0 1px 3px #ffffff25}
+.profile svg{width:21px;height:21px}
+.page{display:none;animation:fade .22s ease}.page.active{display:block}@keyframes fade{from{opacity:.3;transform:translateY(5px)}to{opacity:1;transform:none}}
+h1{font-size:27px;margin:0 0 7px;letter-spacing:-.6px}.sub{color:var(--muted);font-size:13px;margin:0 0 22px}
+.section-title{font-size:16px;font-weight:800;margin:0 0 13px}
+.reward-banner{display:flex;justify-content:space-between;align-items:center;position:relative;overflow:hidden;padding:19px 18px;margin-bottom:21px;border-radius:23px;background:linear-gradient(120deg,#155db8,#0c2a60 78%);border:1px solid #73c9ff66;box-shadow:0 12px 28px #006dff22,inset 0 1px 0 #ffffff35}
+.reward-banner:after{content:"";position:absolute;width:150px;height:150px;border-radius:50%;right:-50px;top:-80px;background:#66d8ff22}
+.banner-kicker{font-size:9px;letter-spacing:1.7px;color:#aee9ff;font-weight:900}.reward-banner h1{font-size:22px;margin:5px 0 3px}.reward-banner p{margin:0;color:#c7e3ff;font-size:11px}.banner-medal{width:64px;height:64px;filter:drop-shadow(0 7px 9px #001d4e99);z-index:1}
+.task-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:112px;gap:8px}
+.day-card{position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:center;justify-content:space-between;text-align:center;background:linear-gradient(155deg,#1b4d8e 0%,#102d60 60%,#0a2048 100%);border:1px solid #71baff38;border-radius:14px;padding:7px 5px 6px;box-shadow:0 7px 15px #020b1d55,inset 0 1px 0 #ffffff1c}
+.day-card:before{content:"";position:absolute;width:95px;height:95px;border-radius:50%;background:#258cff20;right:-38px;top:-43px;filter:blur(3px)}
+.day-card:nth-child(7){border-color:#55caff77;background:radial-gradient(circle at 50% 36%,#247fdc66,transparent 55%),linear-gradient(160deg,#174b91,#0a1d43)}
+.day-top{display:flex;align-items:center;justify-content:center;position:relative;width:100%}
+.day{font-size:10px;font-weight:900;color:#e5f4ff;letter-spacing:.4px}
+.coin{display:none}
+.amount{font-size:15px;font-weight:950;margin:0;letter-spacing:-.3px;position:relative;color:#f2f8ff}
+.amount .coin-mark{display:block;width:25px;height:25px;margin:0 auto 1px;filter:drop-shadow(0 3px 4px #001a48aa)}
+.day-card:nth-child(7) .amount .coin-mark{width:25px;height:25px}
+.day-card:nth-child(7) .amount{font-size:15px;margin:0}
+.claim{width:100%;border:0;border-radius:9px;padding:7px 4px;color:white;font-weight:800;font-size:10px;background:linear-gradient(135deg,#39baff,#1765ed);box-shadow:0 5px 13px #087bff45;cursor:pointer;transition:.18s}
+.claim:active{transform:scale(.97)}.claim:disabled{background:linear-gradient(135deg,#1e4774,#17345c);color:#8ca9cb;box-shadow:none;cursor:default}
+.card{background:linear-gradient(145deg,#102c5b,#0a1d40);border:1px solid var(--line);border-radius:23px;padding:19px;box-shadow:0 14px 35px #020a1c55,inset 0 1px 0 #ffffff12}
+
+.field-label{display:block;font-size:13px;font-weight:800;color:#e3f2ff;margin-bottom:10px}
+.link-wrap{height:49px;display:flex;align-items:center;gap:10px;padding:0 13px;background:#081b3a;border:1px solid #5a9bd344;border-radius:13px;margin-bottom:22px;box-shadow:inset 0 2px 5px #020b1c66}
+.link-wrap svg{width:18px;height:18px;color:#69caff;flex:none}
+.link-wrap input{width:100%;min-width:0;background:transparent;border:0;outline:0;color:#f1f8ff;font:inherit;font-size:12px}
+.link-wrap input::placeholder{color:#7692b8}
+.field-head{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:11px}
+.field-head .field-label{margin:0}
+.value-pill{font-size:11px;font-weight:850;color:#8edcff;background:#1672cb33;border:1px solid #59baff55;border-radius:9px;padding:7px 10px;white-space:nowrap}
+.range{appearance:none;-webkit-appearance:none;width:100%;height:6px;border-radius:10px;background:linear-gradient(to right,#40c7ff 0%,#2678ff var(--fill,0%),#071832 var(--fill,0%),#071832 100%);outline:none;margin:3px 0 8px;cursor:pointer;display:block}
+.range::-webkit-slider-thumb{appearance:none;width:19px;height:19px;border-radius:50%;background:linear-gradient(145deg,#b8f2ff,#278dff 65%,#1453c4);border:2px solid #e3f8ff;box-shadow:0 2px 9px #168dff99}
+.range::-moz-range-thumb{width:16px;height:16px;border-radius:50%;background:#42bfff;border:2px solid #e3f8ff;box-shadow:0 2px 9px #168dff99}
+.range-ends{display:flex;justify-content:space-between;color:#829fc5;font-size:10px}
+.progress-track{height:5px;background:#071832;border-radius:10px;margin-top:11px;overflow:hidden}
+.progress-fill{height:100%;width:0;background:linear-gradient(90deg,#48d8ff,#2479ff);border-radius:10px;transition:width .15s}
+.duration-head{margin-top:24px}
+.coin-meter{margin-top:24px;border-radius:18px;padding:16px;background:radial-gradient(circle at 100% 0,#258cff35,transparent 48%),linear-gradient(135deg,#123d7b,#0a2048);border:1px solid #62baff55;box-shadow:inset 0 1px 0 #ffffff18}
+.meter-top{display:flex;align-items:center;justify-content:space-between}
+.meter-caption{font-size:9px;letter-spacing:1.2px;font-weight:900;color:#a9dfff}
+.meter-number{font-size:29px;font-weight:950;letter-spacing:-.8px;margin-top:5px;color:#fff}
+.meter-number small{font-size:10px;letter-spacing:.7px;color:#b8d9ff}
+.meter-coin svg{width:49px;height:49px;filter:drop-shadow(0 5px 7px #00183f99)}
+.meter-rule{border-top:1px solid #ffffff18;margin-top:12px;padding-top:10px;font-size:10px;color:#a9c8e9}
+#meterGxCoin svg{width:49px;height:49px;filter:drop-shadow(0 5px 7px #00183f99)}
+input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none;margin:0}
+input[type=number]{-moz-appearance:textfield}
+.wallet-hero{background:radial-gradient(circle at 90% 0,#2b9bff55,transparent 42%),linear-gradient(145deg,#1456ad,#0c2b63 70%,#091d43);border:1px solid #6abaff55;border-radius:20px;padding:14px 16px;box-shadow:0 18px 35px #006dff25,inset 0 1px 0 #ffffff30;margin-bottom:18px}
+.wallet-label{font-size:13px;color:#c6e1ff;font-weight:650}.balance{font-size:28px;font-weight:950;letter-spacing:-.8px;margin:4px 0 0}.balance small{font-size:14px;color:#b5d9ff;letter-spacing:0}
+.wallet-foot{font-size:12px;color:#c0dcff}
+.notes{margin-top:18px}.notes h3{margin:0 0 12px;font-size:15px}.note{display:flex;gap:10px;color:#b6c9e5;font-size:12px;line-height:1.55;margin:10px 0}.note svg{width:17px;height:17px;flex:none;color:#59c8ff;margin-top:1px}
+.home-tabs{display:grid;grid-template-columns:repeat(3,1fr);gap:9px;margin-top:8px}.home-tab{min-height:52px;border:1px solid #5aaeff44;border-radius:14px;background:linear-gradient(145deg,#102c5b,#0a1d40);color:#a9c8e9;font-weight:850;font-size:13px;letter-spacing:.5px;cursor:pointer;box-shadow:0 8px 18px #020a1c44}.home-tab.active{color:#fff;border-color:#58caff;background:linear-gradient(135deg,#2189e8,#1551ad);box-shadow:0 7px 18px #087bff35}
+.empty-inner{opacity:.0}
+.store-placeholder{border:1px dashed #4c83c555;border-radius:20px;padding:28px;text-align:center;color:var(--muted);font-size:13px}
+.store-placeholder svg{width:42px;height:42px;color:#65c9ff;margin-bottom:10px}
+nav{position:fixed;z-index:5;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);padding:10px 9px calc(10px + env(safe-area-inset-bottom));display:grid;grid-template-columns:repeat(5,1fr);gap:4px;background:rgba(5,18,42,.94);border-top:1px solid #79b9ff25;backdrop-filter:blur(18px)}
+.nav-btn{border:0;background:transparent;color:#829bbc;display:flex;flex-direction:column;align-items:center;gap:5px;padding:7px 2px 5px;border-radius:14px;font-size:10px;font-weight:750;cursor:pointer}
+.nav-btn svg{width:22px;height:22px;filter:drop-shadow(0 2px 3px #0005)}
+.nav-btn.active{color:#67caff;background:linear-gradient(180deg,#1b68bd35,#1b68bd08)}
+.nav-btn.active svg{filter:drop-shadow(0 0 7px #26aaffaa)}
+.toast{position:fixed;left:50%;bottom:91px;transform:translate(-50%,15px);opacity:0;pointer-events:none;background:#143e70;border:1px solid #65c7ff66;color:white;padding:11px 17px;border-radius:13px;font-size:13px;font-weight:750;box-shadow:0 10px 25px #0007;transition:.25s;z-index:9;white-space:nowrap}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:360px){.task-grid{gap:6px;grid-auto-rows:106px}.day-card{padding:6px 4px 5px}.amount{font-size:14px}.amount .coin-mark{width:23px;height:23px}.claim{font-size:9px;padding:7px 2px}}
+@media(min-width:481px){body{padding:18px 0}.app{border:1px solid #ffffff12;border-radius:28px;min-height:calc(100vh - 36px);background:#071832}nav{bottom:18px;border-radius:0 0 28px 28px}}
+
+.streak-strip{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:12px 14px;margin:0 0 14px;border:1px solid #65bdff45;border-radius:15px;background:linear-gradient(120deg,#123e79,#0a2048)}
+.streak-count{display:flex;align-items:center;gap:9px}.streak-flame{font-size:25px;filter:drop-shadow(0 3px 7px #ff9a2855)}
+.streak-count strong{display:block;font-size:15px}.streak-count small{display:block;color:#a9c8e9;font-size:10px;margin-top:2px}
+.streak-pill{font-size:10px;font-weight:850;color:#ffe19a;background:#a86a1d33;border:1px solid #ffc85a55;border-radius:9px;padding:7px 9px;white-space:nowrap}
+.task-sections{margin-top:22px}.task-section{margin:0 0 19px}.task-section-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.task-section-head strong{font-size:14px}.task-section-head span{font-size:10px;color:#8fb2dc}
+.mini-task{display:flex;align-items:center;gap:9px;padding:10px;margin:8px 0;background:linear-gradient(145deg,#102c5b,#0a1d40);border:1px solid var(--line);border-radius:14px}
+.mini-task-icon{width:33px;height:33px;flex:none;display:grid;place-items:center;border-radius:10px;background:#238cff22;font-size:17px}
+.mini-task-info{min-width:0;flex:1}.mini-task-info strong{display:block;font-size:10px}.mini-task-info small{display:block;color:#8eacd2;font-size:9px;margin-top:3px}
+.mini-task-reward{display:inline-flex;align-items:center;gap:4px;font-size:10px;font-weight:900;color:#ffdb7b;white-space:nowrap}
+.mini-task-reward .rc{display:inline-block;width:15px;height:15px;flex:none}
+.mini-task-reward .rc svg{display:block;width:100%;height:100%}
+.all-task-box{display:flex;align-items:center;gap:12px;padding:16px;margin:4px 0 19px;border-radius:18px;border:1px solid #ffd36b77;background:radial-gradient(circle at 100% 0,#ffc84a30,transparent 50%),linear-gradient(135deg,#1a4a8a,#0a2048);box-shadow:0 10px 24px #020b1d55,inset 0 1px 0 #ffffff25}
+.all-task-box .big-coin{width:46px;height:46px;flex:none;filter:drop-shadow(0 4px 6px #001a48aa)}
+.all-task-box .big-coin svg{display:block;width:100%;height:100%}
+.all-task-info{flex:1;min-width:0}.all-task-info strong{display:block;font-size:13px}.all-task-info small{display:block;color:#a9c8e9;font-size:10px;margin-top:3px}
+.all-task-prog{height:5px;background:#071832;border-radius:10px;margin-top:8px;overflow:hidden}.all-task-prog i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ffd36b,#f59e0b);border-radius:10px;transition:width .25s}
+.all-task-btn{border:0;border-radius:10px;padding:9px 11px;font-weight:850;font-size:10px;color:#fff;background:linear-gradient(135deg,#39baff,#1765ed);cursor:pointer;white-space:nowrap}
+.demo-task-btn:disabled{opacity:.6;cursor:default}
+.all-task-btn:disabled{background:linear-gradient(135deg,#1e4774,#17345c);color:#8ca9cb;cursor:default}
+html,body{overscroll-behavior-y:none}.range,input{touch-action:auto}
+.demo-task-btn{border:1px solid #55baff66;border-radius:9px;padding:7px 8px;background:#1672cb33;color:#c9edff;font-size:9px;font-weight:850;cursor:pointer;white-space:nowrap}
+.coin-pop{position:fixed;z-index:20;pointer-events:none;font-size:25px;animation:coinFly 950ms ease-out forwards;filter:drop-shadow(0 3px 6px #ffbd3b88)}
+@keyframes coinFly{0%{opacity:0;transform:translate(0,12px) scale(.5)}15%{opacity:1}100%{opacity:0;transform:translate(var(--dx),-115px) rotate(240deg) scale(1.15)}}
+.day-card{isolation:isolate}
+
+
+.section-wallet{display:flex;align-items:center;gap:8px;margin:0 0 17px;padding:10px 13px;border:1px solid #66baff55;border-radius:14px;background:linear-gradient(110deg,#123d79,#0a2048);box-shadow:inset 0 1px 0 #ffffff18}
+.section-wallet-icon{font-size:19px;filter:drop-shadow(0 2px 4px #0007)}
+.section-wallet-label{font-size:9px;font-weight:900;letter-spacing:.7px;color:#b7d9ff;flex:1}
+.section-wallet-balance{font-size:17px;font-weight:950;color:#fff;font-variant-numeric:tabular-nums}
+.section-wallet-unit{font-size:9px;font-weight:850;color:#8edcff}
+
+
+.section-wallet-icon{display:block;width:21px;height:21px;flex:none}
+.section-wallet-icon svg{display:block;width:100%;height:100%}
+
+
+.vid-row{display:flex;flex-direction:column;gap:12px;margin:4px 0 16px}
+.vid-card{display:block;width:100%;cursor:pointer}
+.vid-thumb{position:relative;width:100%;aspect-ratio:16/9;border-radius:16px;overflow:hidden;display:grid;place-items:center;box-shadow:0 10px 22px #020b1d66}
+.vid-thumb .play{width:46px;height:46px;border-radius:50%;background:#00000066;border:1px solid #ffffff55;display:grid;place-items:center}
+.vid-thumb .play svg{width:17px;height:17px;margin-left:3px;fill:#fff}
+.vid-dur{position:absolute;right:8px;bottom:8px;font-size:11px;font-weight:800;color:#fff;background:#000000cc;padding:3px 6px;border-radius:6px}
+.vid-meta{display:flex;justify-content:space-between;align-items:center;padding:8px 2px 0;font-size:13px;font-weight:750;color:#eef6ff}
+.vid-pay{display:inline-flex;align-items:center;gap:5px;font-size:13px;font-weight:900;color:#ffdb7b;white-space:nowrap}
+.vid-pay .rc{width:17px;height:17px}
+.vid-status{font-size:11px;color:#8eacd2;font-weight:500;display:inline-flex;align-items:center}
+.tap-panel{display:none;margin-top:18px}.tap-panel.active{display:block}
+.vid-card.done .vid-thumb{opacity:.5}.vid-card.done .vid-meta{color:#8eacd2}
+
+.promote-tier-note{margin-top:13px;padding:11px 12px;border:1px solid #5bbdff40;border-radius:12px;background:#071a37;color:#a9dfff;font-size:10px;line-height:1.6}
+.promote-submit{width:100%;margin-top:13px;padding:13px;border:0;border-radius:13px;color:#fff;font-size:13px;font-weight:900;background:linear-gradient(100deg,#238cff,#e83cae);box-shadow:0 0 18px #299bff55,0 0 24px #ed3fae22;cursor:pointer}
+.promote-submit:active{transform:scale(.985)}
+.video-progress-wrap{padding:0 2px 10px}
+.video-progress-head{display:flex;justify-content:space-between;color:#c7eaff;font-size:10px;margin-bottom:7px}
+.video-progress-track{height:8px;border-radius:20px;background:#071329;overflow:hidden;border:1px solid #4a8bc455;box-shadow:0 0 10px #2c9cff22}
+.video-progress-fill{height:100%;width:0;border-radius:20px;background:linear-gradient(90deg,#19d8ff,#398cff 52%,#f13bb7);box-shadow:0 0 12px #38bfff,0 0 16px #ec3eae;transition:width .2s linear}
+.promo-player{width:100%;aspect-ratio:16/9;border:0;border-radius:13px;background:#000;display:block;margin-top:9px}
+.player-fallback{margin-top:9px;min-height:150px;padding:18px 14px;border-radius:13px;background:#102d50;border:1px solid #3975a8;color:#d9ecff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;text-align:center;font-size:12px;line-height:1.5}
+.player-fallback-link{display:inline-flex;align-items:center;justify-content:center;padding:11px 18px;border-radius:10px;background:linear-gradient(100deg,#1d8fff,#e83cae);color:#fff;text-decoration:none;font-weight:900}
+.promo-claim{width:100%;margin-top:9px;padding:11px;border:0;border-radius:11px;color:#fff;font-weight:900;background:linear-gradient(100deg,#1d8fff,#e83cae);box-shadow:0 0 14px #239bff55;cursor:pointer}
+.promo-claim:disabled{background:#234267;color:#8aa9c8;box-shadow:none}
+.promo-card{padding:10px;margin:9px 0;background:linear-gradient(145deg,#102c5b,#091b3b);border:1px solid #53baff44;border-radius:16px}
+.promo-card .vid-meta{font-size:12px}
+.promo-empty{padding:15px;border:1px dashed #4c83c555;border-radius:13px;color:#91a9cc;font-size:11px;text-align:center}
+.promo-tier-tag{font-size:9px;font-weight:900;color:#a8eaff;border:1px solid #5bbdff55;background:#1672cb22;padding:4px 7px;border-radius:8px}
+.reward-modal{position:fixed;inset:0;background:#020817d9;display:none;align-items:center;justify-content:center;padding:22px;z-index:1000}.reward-modal.show{display:flex}.reward-box{width:100%;max-width:340px;text-align:center;padding:25px 20px;border-radius:22px;background:linear-gradient(145deg,#153d78,#091a39);border:1px solid #56c7ff88;box-shadow:0 0 35px #168fff55}.reward-coin{font-size:48px;animation:coinPop .8s ease-in-out infinite alternate}.reward-box h2{margin:9px 0;color:#fff}.reward-box p{color:#b9d8f5;font-size:13px}.reward-claim-btn{width:100%;border:0;border-radius:13px;padding:14px;color:#fff;font-weight:900;font-size:15px;background:linear-gradient(100deg,#168dff,#e83cae);margin-top:12px}.reward-close{background:transparent;border:0;color:#a8c7e8;margin-top:12px}@keyframes coinPop{to{transform:translateY(-7px) scale(1.08)}}
+\n</style>
+</head>
+<body>
+<div class="app">
+<header>
+ <div class="brand"><div class="logo"><svg viewBox="0 0 24 24" fill="none"><path d="M13.2 2.5 5.5 13h5l-.7 8.5L18.5 10h-5.2l-.1-7.5Z" fill="#fff" stroke="#d8f5ff" stroke-width="1.1" stroke-linejoin="round"/></svg></div>BlueNova</div>
+ <div class="profile" aria-label="Profile"><svg viewBox="0 0 24 24" fill="none" stroke="#bfe5ff" stroke-width="1.8"><circle cx="12" cy="8" r="3.5"/><path d="M5 20c.6-3.5 3-5.3 7-5.3s6.4 1.8 7 5.3" stroke-linecap="round"/></svg></div>
+</header>
+
+<main>
+<section class="page active" id="home">
+ <div class="section-wallet" aria-label="Wallet balance">
+ <span class="section-wallet-icon" aria-label="Gx coin"><svg viewBox="0 0 100 100" role="img"><defs><linearGradient id="walletGxGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fef08a"/><stop offset=".5" stop-color="#f59e0b"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><circle cx="50" cy="50" r="46" fill="url(#walletGxGold)" stroke="#d97706" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5"/><text x="50" y="63" font-size="34" font-weight="900" fill="#78350f" text-anchor="middle">Gx</text></svg></span>
+ <span class="section-wallet-label">WALLET BALANCE</span>
+ <strong class="section-wallet-balance">0</strong>
+ <span class="section-wallet-unit">COINS</span>
+</div>
+ <div class="home-tabs" role="tablist" aria-label="Home tabs">
+  <button class="home-tab active" type="button" data-home-tab="1">TAP 1</button>
+  <button class="home-tab" type="button" data-home-tab="2">TAP 2</button>
+  <button class="home-tab" type="button" data-home-tab="3">TAP 3</button>
+ </div>
+<div class="tap-panel active" data-panel="1">
+<div class="vid-row">
+<div class="vid-card" data-key="h1-0" data-reward="20"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(215 80% 45%),hsl(235 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:12</span></div><div class="vid-meta"><span>TAP 1 · Video 1</span><span class="mini-task-reward vid-pay">+20 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h1-1" data-reward="16"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(195 80% 45%),hsl(215 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:08</span></div><div class="vid-meta"><span>TAP 1 · Video 2</span><span class="mini-task-reward vid-pay">+16 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h1-2" data-reward="12"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(225 80% 45%),hsl(245 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:20</span></div><div class="vid-meta"><span>TAP 1 · Video 3</span><span class="mini-task-reward vid-pay">+12 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h1-3" data-reward="8"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(185 80% 45%),hsl(205 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:15</span></div><div class="vid-meta"><span>TAP 1 · Video 4</span><span class="mini-task-reward vid-pay">+8 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h1-4" data-reward="5"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(205 80% 45%),hsl(225 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:10</span></div><div class="vid-meta"><span>TAP 1 · Video 5</span><span class="mini-task-reward vid-pay">+5 <span class="rc"></span></span></div></div>
+</div>
+</div>
+<div class="tap-panel" data-panel="2">
+<div class="vid-row">
+<div class="vid-card" data-key="h2-0" data-reward="25"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(195 80% 45%),hsl(215 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:12</span></div><div class="vid-meta"><span>TAP 2 · Video 1</span><span class="mini-task-reward vid-pay">+25 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h2-1" data-reward="20"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(225 80% 45%),hsl(245 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:08</span></div><div class="vid-meta"><span>TAP 2 · Video 2</span><span class="mini-task-reward vid-pay">+20 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h2-2" data-reward="15"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(185 80% 45%),hsl(205 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:20</span></div><div class="vid-meta"><span>TAP 2 · Video 3</span><span class="mini-task-reward vid-pay">+15 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h2-3" data-reward="10"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(205 80% 45%),hsl(225 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:15</span></div><div class="vid-meta"><span>TAP 2 · Video 4</span><span class="mini-task-reward vid-pay">+10 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h2-4" data-reward="7"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(215 80% 45%),hsl(235 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:10</span></div><div class="vid-meta"><span>TAP 2 · Video 5</span><span class="mini-task-reward vid-pay">+7 <span class="rc"></span></span></div></div>
+</div>
+</div>
+<div class="tap-panel" data-panel="3">
+<div class="vid-row">
+<div class="vid-card" data-key="h3-0" data-reward="30"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(225 80% 45%),hsl(245 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:12</span></div><div class="vid-meta"><span>TAP 3 · Video 1</span><span class="mini-task-reward vid-pay">+30 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h3-1" data-reward="24"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(185 80% 45%),hsl(205 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:08</span></div><div class="vid-meta"><span>TAP 3 · Video 2</span><span class="mini-task-reward vid-pay">+24 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h3-2" data-reward="18"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(205 80% 45%),hsl(225 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:20</span></div><div class="vid-meta"><span>TAP 3 · Video 3</span><span class="mini-task-reward vid-pay">+18 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h3-3" data-reward="12"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(215 80% 45%),hsl(235 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:15</span></div><div class="vid-meta"><span>TAP 3 · Video 4</span><span class="mini-task-reward vid-pay">+12 <span class="rc"></span></span></div></div>
+<div class="vid-card" data-key="h3-4" data-reward="8"><div class="vid-thumb" style="background:linear-gradient(135deg,hsl(195 80% 45%),hsl(215 70% 18%))"><span class="play"><svg viewBox="0 0 24 24"><path d="M7 4.5v15l13-7.5z"/></svg></span><span class="vid-dur">0:10</span></div><div class="vid-meta"><span>TAP 3 · Video 5</span><span class="mini-task-reward vid-pay">+8 <span class="rc"></span></span></div></div>
+</div>
+</div>
+</section>
+
+<section class="page" id="task">
+ <div class="section-wallet" aria-label="Wallet balance">
+ <span class="section-wallet-icon" aria-label="Gx coin"><svg viewBox="0 0 100 100" role="img"><defs><linearGradient id="walletGxGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fef08a"/><stop offset=".5" stop-color="#f59e0b"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><circle cx="50" cy="50" r="46" fill="url(#walletGxGold)" stroke="#d97706" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5"/><text x="50" y="63" font-size="34" font-weight="900" fill="#78350f" text-anchor="middle">Gx</text></svg></span>
+ <span class="section-wallet-label">WALLET BALANCE</span>
+ <strong class="section-wallet-balance">0</strong>
+ <span class="section-wallet-unit">COINS</span>
+</div>
+ <div class="reward-banner">
+  <div><div class="banner-kicker">DAILY LOGIN BONUS</div><h1>Daily Rewards</h1><p>Claim coins every day!</p></div>
+  <div class="banner-medal"><svg viewBox="0 0 64 64" fill="none"><path d="m20 43-5 17 17-8 17 8-5-17" fill="#1673d9" stroke="#8edfff" stroke-width="2"/><circle cx="32" cy="27" r="22" fill="url(#medal)" stroke="#b5edff" stroke-width="2"/><circle cx="32" cy="27" r="16" stroke="#e3f8ff" stroke-width="2" opacity=".8"/><path d="m32 15 3.7 7.5 8.3 1.2-6 5.8 1.4 8.2-7.4-3.9-7.4 3.9 1.4-8.2-6-5.8 8.3-1.2L32 15Z" fill="#fff2b8" stroke="#d58b22" stroke-width="1.2"/><defs><linearGradient id="medal" x1="12" y1="5" x2="52" y2="49"><stop stop-color="#8deaff"/><stop offset=".5" stop-color="#248cff"/><stop offset="1" stop-color="#1048b4"/></linearGradient></defs></svg></div>
+ </div>
+ <div class="section-title">7 Days • Coin Rewards</div>
+ <div class="streak-strip">
+  <div class="streak-count"><span class="streak-flame">🔥</span><div><strong><span id="streakCount">0</span> Day Streak</strong><small>Log in and claim daily rewards</small></div></div>
+  <span class="streak-pill" id="streakStatus">START YOUR STREAK</span>
+ </div>
+ <div class="task-grid" id="taskGrid"></div>
+ <div class="task-sections">
+  <div class="task-section">
+   <div class="task-section-head"><strong>SECTION 1 · TAP 1 VIDEOS</strong><span>Demo tasks</span></div>
+   <div class="mini-task" data-key="v0" data-reward="5"><div class="mini-task-icon">▶️</div><div class="mini-task-info"><strong>Watch 1 TAP 1 video</strong><small>Complete the video task</small></div><span class="mini-task-reward">+5 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+   <div class="mini-task" data-key="v1" data-reward="15"><div class="mini-task-icon">🎬</div><div class="mini-task-info"><strong>Watch 5 TAP 1 videos</strong><small>Complete 5 video tasks</small></div><span class="mini-task-reward">+15 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+   <div class="mini-task" data-key="v2" data-reward="50"><div class="mini-task-icon">🎥</div><div class="mini-task-info"><strong>Watch 20 TAP 1 videos</strong><small>Complete 20 video tasks</small></div><span class="mini-task-reward">+50 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+  </div>
+  <div class="task-section">
+   <div class="task-section-head"><strong>SECTION 2 · TAP 2 VIDEOS</strong><span>Demo tasks</span></div>
+   <div class="mini-task" data-key="v3" data-reward="5"><div class="mini-task-icon">📺</div><div class="mini-task-info"><strong>Watch 1 TAP 2 video</strong><small>Complete the video task</small></div><span class="mini-task-reward">+5 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+   <div class="mini-task" data-key="v4" data-reward="15"><div class="mini-task-icon">📺</div><div class="mini-task-info"><strong>Watch 5 TAP 2 videos</strong><small>Complete 5 video tasks</small></div><span class="mini-task-reward">+15 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+   <div class="mini-task" data-key="v5" data-reward="50"><div class="mini-task-icon">📺</div><div class="mini-task-info"><strong>Watch 20 TAP 2 videos</strong><small>Complete 20 video tasks</small></div><span class="mini-task-reward">+50 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+  </div>
+  <div class="task-section">
+   <div class="task-section-head"><strong>SECTION 3 · TAP 3 VIDEOS</strong><span>Demo tasks</span></div>
+   <div class="mini-task" data-key="v6" data-reward="5"><div class="mini-task-icon">📹</div><div class="mini-task-info"><strong>Watch 1 TAP 3 video</strong><small>Complete the video task</small></div><span class="mini-task-reward">+5 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+   <div class="mini-task" data-key="v7" data-reward="15"><div class="mini-task-icon">📹</div><div class="mini-task-info"><strong>Watch 5 TAP 3 videos</strong><small>Complete 5 video tasks</small></div><span class="mini-task-reward">+15 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+   <div class="mini-task" data-key="v8" data-reward="50"><div class="mini-task-icon">📹</div><div class="mini-task-info"><strong>Watch 20 TAP 3 videos</strong><small>Complete 20 video tasks</small></div><span class="mini-task-reward">+50 <span class="rc"></span></span><button class="demo-task-btn">START</button></div>
+  </div>
+  <div class="all-task-box"><div class="big-coin" id="allTaskCoin"></div><div class="all-task-info"><strong>Complete all tasks &amp; get 100 coins</strong><small id="allTaskSmall">0 / 9 tasks completed</small><div class="all-task-prog"><i id="allTaskBar"></i></div></div><button class="all-task-btn" id="allTaskBtn" disabled>+100</button></div>
+  <div class="task-section">
+   <div class="task-section-head"><strong>SECTION 4 · SOCIAL MEDIA</strong><span>Join &amp; earn</span></div>
+   <div class="mini-task" data-key="s0" data-reward="10"><div class="mini-task-icon">▶️</div><div class="mini-task-info"><strong>Join YouTube channel</strong><small>YouTube task · demo</small></div><span class="mini-task-reward">+10 <span class="rc"></span></span><button class="demo-task-btn">OPEN</button></div>
+   <div class="mini-task" data-key="s1" data-reward="10"><div class="mini-task-icon">✈️</div><div class="mini-task-info"><strong>Join Telegram channel</strong><small>Telegram task · demo</small></div><span class="mini-task-reward">+10 <span class="rc"></span></span><button class="demo-task-btn">OPEN</button></div>
+   <div class="mini-task" data-key="s2" data-reward="10"><div class="mini-task-icon">💬</div><div class="mini-task-info"><strong>Join WhatsApp channel</strong><small>WhatsApp task · demo</small></div><span class="mini-task-reward">+10 <span class="rc"></span></span><button class="demo-task-btn">OPEN</button></div>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="promote">
+ <div class="section-wallet" aria-label="Wallet balance">
+ <span class="section-wallet-icon" aria-label="Gx coin"><svg viewBox="0 0 100 100" role="img"><defs><linearGradient id="walletGxGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fef08a"/><stop offset=".5" stop-color="#f59e0b"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><circle cx="50" cy="50" r="46" fill="url(#walletGxGold)" stroke="#d97706" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5"/><text x="50" y="63" font-size="34" font-weight="900" fill="#78350f" text-anchor="middle">Gx</text></svg></span>
+ <span class="section-wallet-label">WALLET BALANCE</span>
+ <strong class="section-wallet-balance">0</strong>
+ <span class="section-wallet-unit">COINS</span>
+</div>
+ <h1 style="margin-bottom:18px;font-size:21px;font-weight:700">Promote Video</h1>
+ <div class="card promote-card">
+  <label class="field-label" for="videoLink">YouTube Video Link</label>
+  <div class="link-wrap"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M10 13a5 5 0 0 0 7.1 0l3-3A5 5 0 0 0 13 2.9l-1.7 1.7"/><path d="M14 11a5 5 0 0 0-7.1 0l-3 3A5 5 0 0 0 11 21.1l1.7-1.7"/></svg><input id="videoLink" type="url" placeholder="Paste YouTube video link here"></div>
+
+  <label class="field-label" for="promoTapSelect" style="display:block;margin-top:15px">Select Video Section</label>
+  <select id="promoTapSelect" style="width:100%;padding:13px;border-radius:12px;border:1px solid #4386c9;background:#071a37;color:#fff;font-weight:800;outline:none">
+   <option value="1">TAP 1 · Minimum 60 coins</option>
+   <option value="2">TAP 2 · Minimum 500 coins</option>
+   <option value="3">TAP 3 · Minimum 1,000 coins</option>
+  </select>
+  <div class="field-head"><label class="field-label" for="viewsRange">Target Views</label><span class="value-pill"><span id="viewsValue">10</span> Views</span></div>
+  <input class="range" id="viewsRange" type="range" min="10" max="1000" step="10" value="10">
+  <div class="range-ends"><span>10 Views</span><span>1,000 Views</span></div>
+
+  <div class="field-head duration-head"><label class="field-label" for="durationRange">Target Duration</label><span class="value-pill"><span id="durationValue">6</span> Sec</span></div>
+  <input class="range" id="durationRange" type="range" min="6" max="6000" step="6" value="6">
+  <div class="range-ends"><span>6 Sec</span><span>6,000 Sec</span></div>
+
+  <div class="coin-meter">
+   <div class="meter-top"><div><span class="meter-caption">ESTIMATED COIN COST</span><div class="meter-number" id="coinCost">0 <small>COINS</small></div></div>
+    <div class="meter-coin"><svg viewBox="0 0 48 48" fill="none"><ellipse cx="24" cy="39" rx="16" ry="5" fill="#05245b" opacity=".55"/><path d="M8 17v13c0 6 7 10 16 10s16-4 16-10V17" fill="#d98a20" stroke="#ffe7a0" stroke-width="1.5"/><ellipse cx="24" cy="17" rx="16" ry="9" fill="#ffdc70" stroke="#fff0b5" stroke-width="1.5"/><ellipse cx="24" cy="17" rx="11.5" ry="5.7" fill="#f6b83f" stroke="#c97b19" stroke-width="1.2"/><path d="M24 10.5v13m4-10.5c-.8-.8-2-1.2-3.6-1.2-2.1 0-3.5 1-3.5 2.5 0 3.5 7 1.8 7 5.1 0 1.5-1.4 2.6-3.7 2.6-1.6 0-3-.5-4-1.5" stroke="#8a4d0b" stroke-width="1.6" stroke-linecap="round"/></svg></div>
+   </div>
+   <div class="meter-rule">Rate: 1 coin × each second watched × each target view</div>
+   <div class="promote-tier-note" id="promoteTierNote">TAP 1 minimum: 60 coins · TAP 2: 500 coins · TAP 3: 1,000 coins</div>
+   <button class="promote-submit" id="promoteSubmit" type="button">🚀 Promote Video</button>
+  </div>
+ </div>
+</section>
+
+<section class="page" id="wallet">
+ <h1>My Wallet</h1>
+ <div class="wallet-hero">
+  <div class="wallet-label">Total Coins Balance</div>
+  <div class="balance"><span id="balance">0</span> <small>COINS</small></div>
+  
+ </div>
+ <div class="card notes">
+  <h3>Important Notes</h3>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 11v5m0-8h.01"/></svg><span>Coins are added to your wallet after a successful claim.</span></div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 3 4 6v5c0 5 3.4 8.3 8 10 4.6-1.7 8-5 8-10V6l-8-3Z"/><path d="m9 12 2 2 4-4"/></svg><span>Each daily reward can be claimed only once per day on this device.</span></div>
+  <div class="note"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg><span>Reward availability resets at the start of a new day.</span></div>
+ </div>
+</section>
+
+<section class="page" id="store">
+ <div class="section-wallet" aria-label="Wallet balance">
+ <span class="section-wallet-icon" aria-label="Gx coin"><svg viewBox="0 0 100 100" role="img"><defs><linearGradient id="walletGxGold" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fef08a"/><stop offset=".5" stop-color="#f59e0b"/><stop offset="1" stop-color="#b45309"/></linearGradient></defs><circle cx="50" cy="50" r="46" fill="url(#walletGxGold)" stroke="#d97706" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="#fbbf24" stroke="#f59e0b" stroke-width="1.5"/><text x="50" y="63" font-size="34" font-weight="900" fill="#78350f" text-anchor="middle">Gx</text></svg></span>
+ <span class="section-wallet-label">WALLET BALANCE</span>
+ <strong class="section-wallet-balance">0</strong>
+ <span class="section-wallet-unit">COINS</span>
+</div>
+ <h1>Store</h1><p class="sub">Explore the rewards store.</p>
+ <div class="store-placeholder"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 8h16l-1 12H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><br>Store items coming soon</div>
+</section>
+</main>
+</div>
+
+<nav aria-label="Main navigation">
+ <button class="nav-btn active" data-page="home"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="m3 10 9-7 9 7v10a1 1 0 0 1-1 1h-5v-7h-6v7H4a1 1 0 0 1-1-1V10Z"/></svg><span>Home</span></button>
+ <button class="nav-btn" data-page="task"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><rect x="4" y="3.5" width="16" height="17" rx="3"/><path d="M8 8h8M8 12h8M8 16h4"/></svg><span>Task</span></button>
+ <button class="nav-btn" data-page="promote"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="m3 11 18-7-7 18-3-8-8-3Z"/><path d="m11 14 5-5"/></svg><span>Promote</span></button>
+ <button class="nav-btn" data-page="wallet"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="5" width="18" height="15" rx="3"/><path d="M3 9h18M16 14h2"/><path d="M6 5V4a2 2 0 0 1 2-2h10"/></svg><span>Wallet</span></button>
+ <button class="nav-btn" data-page="store"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M4 8h16l-1 12H5L4 8Z"/><path d="M9 9V6a3 3 0 0 1 6 0v3"/></svg><span>Store</span></button>
+</nav>
+<div class="toast" id="toast">Reward claimed!</div>
+<div class="reward-modal" id="promoRewardModal" role="dialog" aria-modal="true"><div class="reward-box"><div class="reward-coin">🪙</div><h2>Video Completed!</h2><p id="promoRewardText">Your reward is ready.</p><button class="reward-claim-btn" id="promoRewardClaim">CLAIM COINS</button><button class="reward-close" id="promoRewardClose">Later</button></div></div>
+
+<script>
+
+// Short tap sound only. No coin, popup, circle, or visual effect appears on taps.
+let tapAudioContext=null;
+function playTapSound(){
+ try{
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return;
+  if(!tapAudioContext)tapAudioContext=new AC();
+  if(tapAudioContext.state==='suspended')tapAudioContext.resume();
+  const now=tapAudioContext.currentTime;
+  const osc=tapAudioContext.createOscillator(),gain=tapAudioContext.createGain();
+  osc.type='triangle';osc.frequency.setValueAtTime(700,now);
+  osc.frequency.exponentialRampToValueAtTime(500,now+0.05);
+  gain.gain.setValueAtTime(0.05,now);gain.gain.exponentialRampToValueAtTime(0.0001,now+0.05);
+  osc.connect(gain);gain.connect(tapAudioContext.destination);osc.start(now);osc.stop(now+0.07);
+ }catch(e){}
+}
+document.addEventListener('pointerdown',e=>{
+ const target=e.target.closest('button,a,[role="button"],input[type="range"],.nav-btn,.home-tab');
+ if(target&&!target.classList.contains('active')&&!target.disabled)playTapSound();
+},{passive:true});
+
+const rewards=[10,20,30,40,50,60,70];
+const coinSvg='<svg viewBox="0 0 100 100" width="100%" height="100%"><defs><linearGradient id="gxGoldV5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fef08a"/><stop offset="50%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#b45309"/></linearGradient><linearGradient id="gxInnerV5" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#fbbf24"/><stop offset="100%" stop-color="#d97706"/></linearGradient></defs><circle cx="50" cy="50" r="46" fill="url(#gxGoldV5)" stroke="#d97706" stroke-width="3"/><circle cx="50" cy="50" r="38" fill="url(#gxInnerV5)" stroke="#f59e0b" stroke-width="1.5"/><text x="50" y="63" font-size="38" font-weight="900" fill="#78350f" text-anchor="middle">Gx</text></svg>';
+document.querySelectorAll('.section-wallet-icon').forEach(icon=>{icon.innerHTML=coinSvg.replaceAll('gxGoldV5','gxGoldWallet'+Array.from(document.querySelectorAll('.section-wallet-icon')).indexOf(icon)).replaceAll('gxInnerV5','gxInnerWallet'+Array.from(document.querySelectorAll('.section-wallet-icon')).indexOf(icon));});
+let coinUid=0;
+function makeCoin(){const k=++coinUid;return coinSvg.replaceAll('gxGoldV5','gxG'+k).replaceAll('gxInnerV5','gxI'+k)}
+document.querySelectorAll('.mini-task-reward .rc').forEach(el=>{el.innerHTML=makeCoin()});
+const allCoinEl=document.getElementById('allTaskCoin');if(allCoinEl)allCoinEl.innerHTML=makeCoin();
+const today=()=>new Date().toLocaleDateString('en-CA');
+const storageKey='bluenova_rewards_v1';
+let data={balance:0,claims:{},streak:0,lastClaimDate:null};
+try{const saved=JSON.parse(localStorage.getItem(storageKey)||'null');if(saved&&typeof saved==='object')data={...data,...saved,streak:Number(saved.streak)||0,lastClaimDate:saved.lastClaimDate||null}}catch(e){}
+function save(){localStorage.setItem(storageKey,JSON.stringify(data))}
+function dateOffset(dateString,days){
+ const d=new Date(dateString+'T12:00:00');d.setDate(d.getDate()+days);
+ return d.toLocaleDateString('en-CA');
+}
+function render(){
+ const grid=document.getElementById('taskGrid');grid.innerHTML='';
+ const alreadyClaimed=data.lastClaimDate===today();
+ const nextDay=alreadyClaimed?Math.max(1,Math.min(7,data.streak||1)):
+  (data.lastClaimDate===dateOffset(today(),-1)?Math.min(7,(data.streak||0)+1):1);
+ rewards.forEach((amount,i)=>{
+  const day=i+1,isCurrent=day===nextDay;
+  const claimedToday=alreadyClaimed&&day===data.streak;
+  const completed=day<nextDay||(alreadyClaimed&&day<=data.streak);
+  const card=document.createElement('div');card.className='day-card';
+  const label=claimedToday?'Claimed ✓':completed?'Done ✓':isCurrent?'CLAIM':'Locked';
+  card.innerHTML=`<div class="day-top"><span class="day">DAY ${day}</span></div><div class="amount"><span class="coin-mark">${makeCoin()}</span>${amount}<span style="display:block;font-size:9px;color:#a9c8ee;letter-spacing:1px;margin-top:2px">COINS</span></div><button class="claim" ${(!isCurrent||alreadyClaimed)?'disabled':''}>${label}</button>`;
+  if(isCurrent&&!alreadyClaimed)card.querySelector('button').addEventListener('click',()=>claim(day,amount));
+  grid.appendChild(card);
+ });
+ document.getElementById('balance').textContent=data.balance.toLocaleString('en-IN');
+ document.querySelectorAll('.section-wallet-balance').forEach(el=>el.textContent=data.balance.toLocaleString('en-IN'));
+ document.getElementById('streakCount').textContent=data.streak||0;
+ document.getElementById('streakStatus').textContent=alreadyClaimed?'CLAIMED TODAY':(data.lastClaimDate===dateOffset(today(),-1)?'STREAK CONTINUES':'DAY 1 READY');
+}
+let toastTimer;
+function toast(message){const el=document.getElementById('toast');el.textContent=message;el.classList.add('show');clearTimeout(toastTimer);toastTimer=setTimeout(()=>el.classList.remove('show'),1900)}
+function coinBurst(src){
+ const from=src||document.querySelector('.streak-strip');
+ const activePage=document.querySelector('.page.active');
+ const target=(activePage&&activePage.querySelector('.section-wallet-balance'))||document.getElementById('balance');
+ if(!from||!target){playCoinClink(0);return}
+ const fr=from.getBoundingClientRect(),tr=target.getBoundingClientRect();
+ const count=7;
+ for(let i=0;i<count;i++){
+  const delay=i*65;
+  setTimeout(()=>{
+   const size=25;
+   const sx=fr.left+fr.width*(.25+Math.random()*.5)-size/2;
+   const sy=fr.top+fr.height*.55-size/2;
+   const tx=tr.left+tr.width/2-size/2;
+   const ty=Math.max(tr.top+tr.height/2,45)-size/2;
+   const flyer=document.createElement('div');
+   flyer.style.cssText=`position:fixed;left:0;top:0;width:${size}px;height:${size}px;z-index:9999;pointer-events:none;filter:drop-shadow(0 2px 4px #0008)`;
+   flyer.innerHTML=makeCoin();document.body.appendChild(flyer);
+   const midX=(sx+tx)/2+(Math.random()*90-45);
+   const midY=Math.max(12,Math.min(sy,ty)-100-Math.random()*35);
+   const anim=flyer.animate([
+    {transform:`translate(${sx}px,${sy}px) scale(.5)`,opacity:1},
+    {transform:`translate(${midX}px,${midY}px) scale(1.15)`,opacity:1,offset:.5},
+    {transform:`translate(${tx}px,${ty}px) scale(.85)`,opacity:.95}
+   ],{duration:720,easing:'cubic-bezier(.45,.05,.55,.95)',fill:'forwards'});
+   anim.onfinish=()=>{playCoinClink(i);if(i===count-1)blip(2637,0.02,.35,.05,'sine');flyer.remove();target.animate([{transform:'scale(1.16)'},{transform:'scale(1)'}],{duration:180,easing:'ease-out'});};
+  },delay);
+ }
+}
+function claim(day,amount){
+ if(data.lastClaimDate===today()){toast('Already claimed today');return}
+ const yesterday=dateOffset(today(),-1);
+ data.streak=data.lastClaimDate===yesterday?Math.min(7,(data.streak||0)+1):1;
+ data.lastClaimDate=today();data.balance+=amount;
+ save();render();coinBurst();toast('+'+amount+' coins added to wallet!');
+}
+document.querySelectorAll('.nav-btn').forEach(btn=>btn.addEventListener('click',()=>{
+ document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b===btn));
+ document.querySelectorAll('.page').forEach(p=>p.classList.toggle('active',p.id===btn.dataset.page));
+}));
+render();
+
+// ---- sound helpers ----
+function getAC(){
+ try{
+  const AC=window.AudioContext||window.webkitAudioContext;if(!AC)return null;
+  if(!tapAudioContext)tapAudioContext=new AC();
+  if(tapAudioContext.state==='suspended')tapAudioContext.resume();
+  return tapAudioContext;
+ }catch(e){return null}
+}
+function blip(freq,delay,dur,vol,type,endFreq){
+ const ac=getAC();if(!ac)return;
+ const t=ac.currentTime+delay;
+ const o=ac.createOscillator(),g=ac.createGain();
+ o.type=type||'sine';o.frequency.setValueAtTime(freq,t);
+ if(endFreq)o.frequency.exponentialRampToValueAtTime(endFreq,t+dur);
+ g.gain.setValueAtTime(vol,t);g.gain.exponentialRampToValueAtTime(0.0001,t+dur);
+ o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+dur+0.03);
+}
+function playCoinSound(){
+ blip(988,0,.10,.10,'triangle');
+ blip(1319,.09,.12,.10,'triangle');
+ blip(1760,.19,.28,.10,'triangle');
+ blip(1319,.30,.10,.06,'triangle');
+ blip(1760,.38,.20,.06,'triangle');
+}
+const TAP_LEVEL=0.05;                 // normal sound-effect level
+const SCROLL_LEVEL=TAP_LEVEL*0.4;    // scroll sound is 60% quieter
+let noiseBuf=null;
+function getNoise(ac){
+ if(!noiseBuf){
+  const len=Math.floor(ac.sampleRate*0.4);
+  noiseBuf=ac.createBuffer(1,len,ac.sampleRate);
+  const d=noiseBuf.getChannelData(0);
+  let last=0;
+  for(let i=0;i<len;i++){last=(last+0.02*(Math.random()*2-1))/1.02;d[i]=last*3.5}
+ }
+ return noiseBuf;
+}
+function playScrollTick(){
+ // soft airy whoosh (smooth brown noise, slow fade in/out), 40% of tap volume
+ const ac=getAC();if(!ac)return;
+ const t=ac.currentTime,dur=0.22;
+ const src=ac.createBufferSource();src.buffer=getNoise(ac);
+ const lp=ac.createBiquadFilter();lp.type='lowpass';
+ lp.frequency.setValueAtTime(600,t);lp.frequency.linearRampToValueAtTime(1100,t+dur/2);lp.frequency.linearRampToValueAtTime(500,t+dur);
+ const g=ac.createGain();
+ g.gain.setValueAtTime(0.0001,t);
+ g.gain.linearRampToValueAtTime(SCROLL_LEVEL,t+0.07);
+ g.gain.linearRampToValueAtTime(0.0001,t+dur);
+ src.connect(lp);lp.connect(g);g.connect(ac.destination);
+ src.start(t,Math.random()*0.2);src.stop(t+dur+0.02);
+}
+// metallic coin "clink": bell-like inharmonic partials + tiny click
+function playCoinClink(i){
+ const ac=getAC();if(!ac)return;
+ const t=ac.currentTime;
+ const base=1400*(1+(i%4)*0.07+Math.random()*0.03);
+ [[1,.13,.24],[2.76,.07,.16],[5.4,.035,.09]].forEach(([r,v,d])=>{
+  const o=ac.createOscillator(),g=ac.createGain();
+  o.type='sine';o.frequency.value=base*r;
+  g.gain.setValueAtTime(v,t);g.gain.exponentialRampToValueAtTime(0.0001,t+d);
+  o.connect(g);g.connect(ac.destination);o.start(t);o.stop(t+d+0.02);
+ });
+ const src=ac.createBufferSource();src.buffer=getNoise(ac);
+ const hp=ac.createBiquadFilter();hp.type='highpass';hp.frequency.value=3500;
+ const g2=ac.createGain();g2.gain.setValueAtTime(0.0001,t);g2.gain.exponentialRampToValueAtTime(0.02,t+0.002);g2.gain.exponentialRampToValueAtTime(0.0001,t+0.015);
+ src.connect(hp);hp.connect(g2);g2.connect(ac.destination);src.start(t);src.stop(t+0.03);
+}
+// unlock audio on first touch so scroll sound can play
+document.addEventListener('pointerdown',()=>{getAC()},{passive:true});
+document.addEventListener('touchstart',()=>{getAC()},{passive:true});
+// scroll sound: soft tick every ~48px of scrolling
+(function(){
+ let lastY=window.scrollY,acc=0,lastPlay=0;
+ window.addEventListener('scroll',()=>{
+  const y=window.scrollY;acc+=Math.abs(y-lastY);lastY=y;
+  const now=performance.now();
+  if(acc>=70&&now-lastPlay>160){acc=0;lastPlay=now;playScrollTick();}
+ },{passive:true});
+})();
+
+// ---- task completion (demo: no real verification yet) ----
+if(!data.done||typeof data.done!=='object')data.done={};
+if(Array.isArray(data.videoDone)){data.videoDone.forEach(i=>{data.done['v'+i]=1});delete data.videoDone;save();}
+function markDone(row){
+ const b=row.querySelector('.demo-task-btn');
+ if(b){b.textContent='DONE ✓';b.disabled=true}
+}
+function updateAllTasks(){
+ const total=9;
+ let done=0;for(let i=0;i<total;i++)if(data.done['v'+i])done++;
+ const small=document.getElementById('allTaskSmall'),bar=document.getElementById('allTaskBar'),btn=document.getElementById('allTaskBtn');
+ if(!small)return;
+ small.textContent=done+' / '+total+' tasks completed';bar.style.width=(done/total*100)+'%';
+ if(data.allBonusClaimed){btn.textContent='Claimed ✓';btn.disabled=true}
+ else{btn.textContent='+100';btn.disabled=done<total}
+}
+document.querySelectorAll('.mini-task[data-key]').forEach(row=>{
+ if(data.done[row.dataset.key])markDone(row);
+ const btn=row.querySelector('.demo-task-btn');
+ btn.addEventListener('click',()=>{
+  const key=row.dataset.key;
+  if(data.done[key])return;
+  const reward=Number(row.dataset.reward)||0;
+  data.done[key]=1;data.balance+=reward;
+  save();markDone(row);render();updateAllTasks();
+  coinBurst(btn);
+  toast('+'+reward+' coins added to wallet!');
+ });
+});
+document.getElementById('allTaskBtn').addEventListener('click',()=>{
+ if(data.allBonusClaimed)return;
+ data.allBonusClaimed=true;data.balance+=100;
+ save();render();updateAllTasks();
+ coinBurst(document.getElementById('allTaskBtn'));
+ toast('+100 coins added to wallet!');
+});
+updateAllTasks();
+document.querySelectorAll('.home-tab').forEach(tab=>tab.addEventListener('click',()=>{
+ document.querySelectorAll('.home-tab').forEach(item=>item.classList.toggle('active',item===tab));
+ document.querySelectorAll('.tap-panel').forEach(p=>p.classList.toggle('active',p.dataset.panel===tab.dataset.homeTab));
+}));
+
+const viewsRange=document.getElementById('viewsRange');
+const durationRange=document.getElementById('durationRange');
+function paintRange(range){
+ const min=Number(range.min);
+ const max=Number(range.max);
+ const value=Number(range.value);
+ const percent=((value-min)/(max-min))*100;
+ range.style.setProperty('--fill',percent+'%');
+}
+function updatePromoteCalculator(){
+ const views=Number(viewsRange.value);
+ const seconds=Number(durationRange.value);
+ const coins=views*seconds;
+ document.getElementById('viewsValue').textContent=views.toLocaleString('en-IN');
+ document.getElementById('durationValue').textContent=seconds.toLocaleString('en-IN');
+ document.getElementById('coinCost').innerHTML=coins.toLocaleString('en-IN')+' <small>COINS</small>';
+ paintRange(viewsRange);
+ paintRange(durationRange);
+}
+viewsRange.addEventListener('input',updatePromoteCalculator);
+durationRange.addEventListener('input',updatePromoteCalculator);
+updatePromoteCalculator();
+// Use the same Gx coin artwork as the Daily Reward cards.
+const promoteCoin=document.querySelector('#promote .meter-coin');
+if(promoteCoin) promoteCoin.innerHTML=makeCoin();
+
+// Scroll speed limit: fast flicks can't scroll faster than MAX_SPEED
+(function(){
+ const MAX_STEP=38;      // max px moved per touch event
+ const MAX_VEL=1.1;      // max momentum speed (px/ms)
+ const FRICTION=0.94;
+ let startY=0,lastY=0,lastT=0,vel=0,active=false,raf=null,startedOnInput=false,moved=false;
+ const clamp=(v,m)=>Math.max(-m,Math.min(m,v));
+ function stop(){if(raf){cancelAnimationFrame(raf);raf=null}}
+ document.addEventListener('touchstart',e=>{
+  stop();
+  if(e.touches.length!==1){active=false;return}
+  startedOnInput=!!e.target.closest('input,textarea,select');
+  if(startedOnInput){active=false;return}
+  active=true;moved=false;startY=lastY=e.touches[0].clientY;lastT=performance.now();vel=0;
+ },{passive:true});
+ document.addEventListener('touchmove',e=>{
+  if(!active||e.touches.length!==1)return;
+  const y=e.touches[0].clientY,now=performance.now();
+  const dy=clamp(lastY-y,MAX_STEP);
+  if(Math.abs(y-startY)>4)moved=true;
+  if(moved){e.preventDefault();window.scrollBy(0,dy);}
+  const dt=Math.max(1,now-lastT);
+  vel=clamp(0.6*vel+0.4*(dy/dt),MAX_VEL);
+  lastY=y;lastT=now;
+ },{passive:false});
+ document.addEventListener('touchend',()=>{
+  if(!active||!moved)return;active=false;
+  function step(){
+   vel*=FRICTION;
+   if(Math.abs(vel)<0.02){raf=null;return}
+   window.scrollBy(0,vel*16);raf=requestAnimationFrame(step);
+  }
+  raf=requestAnimationFrame(step);
+ },{passive:true});
+ // mouse wheel / trackpad
+ window.addEventListener('wheel',e=>{
+  e.preventDefault();window.scrollBy(0,clamp(e.deltaY,60));
+ },{passive:false});
+})();
+
+// ---- promoted videos: tier placement, playback progress and delayed claim ----
+const PROMO_TIERS=[{tap:1,min:60},{tap:2,min:500},{tap:3,min:1000}];
+const promoStorageKey='bluenova_promotions_v1';
+const deviceUserKey='this-device';
+let promotions=[];
+try{const savedPromos=JSON.parse(localStorage.getItem(promoStorageKey)||'[]');if(Array.isArray(savedPromos))promotions=savedPromos}catch(e){}
+function savePromotions(){localStorage.setItem(promoStorageKey,JSON.stringify(promotions))}
+function getYoutubeId(raw){
+ try{
+  let value=String(raw||'').trim();if(!value)return null;
+  if(!/^https?:\/\//i.test(value))value='https://'+value;
+  const u=new URL(value),host=u.hostname.toLowerCase().replace(/^www\./,'');
+  let id=null;
+  if(host==='youtu.be')id=u.pathname.split('/').filter(Boolean)[0]||null;
+  else if(host==='youtube.com'||host==='m.youtube.com'||host==='music.youtube.com'){
+   if(u.pathname==='/watch')id=u.searchParams.get('v');
+   else {const m=u.pathname.match(/^\/(?:embed|shorts|live|v)\/([^/?]+)/);id=m?m[1]:null;}
+  }
+  return id&&/^[A-Za-z0-9_-]{11}$/.test(id)?id:null;
+ }catch(e){return null}
+}
+function promoTier(coins){let tier=null;PROMO_TIERS.forEach(t=>{if(coins>=t.min)tier=t.tap});return tier}
+function formatTime(sec){sec=Math.max(0,Math.floor(sec||0));return Math.floor(sec/60)+':'+String(sec%60).padStart(2,'0')}
+function sortPromos(){promotions.sort((a,b)=>b.coins-a.coins||a.createdAt-b.createdAt)}
+let activePromoPlayer=null,promoPoll=null,promoFinishTimer=null,pendingPromoClaim=null;
+function showPromoReward(p,card){pendingPromoClaim={p,card};document.getElementById('promoRewardText').textContent='+'+p.seconds+' coins will be added to your wallet.';document.getElementById('promoRewardModal').classList.add('show')}
+document.getElementById('promoRewardClose').addEventListener('click',()=>document.getElementById('promoRewardModal').classList.remove('show'));
+document.getElementById('promoRewardClaim').addEventListener('click',()=>{if(!pendingPromoClaim)return;const {p,card}=pendingPromoClaim;p.claimed=p.claimed||[];if(p.claimed.includes(deviceUserKey)){document.getElementById('promoRewardModal').classList.remove('show');return}p.claimed.push(deviceUserKey);data.balance+=Number(p.seconds)||0;save();savePromotions();document.getElementById('promoRewardModal').classList.remove('show');pendingPromoClaim=null;render();drawPromos();coinBurst(document.getElementById('balance')||card);toast('+'+p.seconds+' coins added to wallet!')});
+function startPromoPlayer(p,card){
+ if(activePromoPlayer&&activePromoPlayer.destroy){try{activePromoPlayer.destroy()}catch(e){}}
+ clearInterval(promoPoll);clearTimeout(promoFinishTimer);
+ const slot=card.querySelector('.player-slot');slot.innerHTML='';
+ const fill=card.querySelector('.video-progress-fill'),time=card.querySelector('.watch-time'),label=card.querySelector('.watch-label'),claim=card.querySelector('.promo-claim');
+ card.dataset.ready='';let elapsed=0,ended=false,videoDuration=p.seconds,readyTimer=null;
+ const watchUrl='https://www.youtube.com/watch?v='+encodeURIComponent(p.videoId);
+ const addFallback=(message)=>{
+  clearTimeout(readyTimer);clearInterval(promoPoll);
+  label.textContent=message;time.textContent='Playback unavailable';
+  let box=slot.querySelector('.player-fallback');
+  if(!box){box=document.createElement('div');box.className='player-fallback';slot.appendChild(box)}
+  box.innerHTML='';
+  const note=document.createElement('div');note.textContent='Video ko YouTube par khol kar dekho. App ke andar playback ke liye HTTPS hosting (GitHub Pages) zaroori ho sakti hai.';box.appendChild(note);
+  const link=document.createElement('a');link.href=watchUrl;link.target='_blank';link.rel='noopener noreferrer';link.className='player-fallback-link';link.textContent='▶ Open in YouTube';box.appendChild(link);
+ };
+ if(location.protocol==='file:'){
+  addFallback('Local file mode · HTTPS hosting required');
+  return;
+ }
+ const id='ytpromo_'+p.id.replace(/[^a-zA-Z0-9_-]/g,'');
+ const iframe=document.createElement('iframe');iframe.id=id;iframe.className='promo-player';
+ const playerParams=new URLSearchParams({enablejsapi:'1',playsinline:'1',rel:'0',origin:location.origin});
+ iframe.src='https://www.youtube.com/embed/'+encodeURIComponent(p.videoId)+'?'+playerParams.toString();
+ iframe.referrerPolicy='origin';iframe.title='Promoted YouTube video';iframe.allow='accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share';iframe.allowFullscreen=true;slot.appendChild(iframe);
+ const setProgress=v=>{const total=Math.max(1,videoDuration||p.seconds);fill.style.width=Math.min(100,Math.max(0,v/total*100))+'%';time.textContent=formatTime(Math.min(v,total))+' / '+formatTime(total)};
+ const unlock=()=>{if(ended)return;ended=true;clearInterval(promoPoll);clearTimeout(readyTimer);setProgress(videoDuration||p.seconds);label.textContent='Video finished · Claim unlocks in 3 seconds';promoFinishTimer=setTimeout(()=>{card.dataset.ready='1';claim.disabled=false;claim.textContent='🎁 CLAIM '+p.seconds+' COINS';label.textContent='Completed · Reward ready';showPromoReward(p,card)},3000)};
+ const initYT=()=>{if(!window.YT||!window.YT.Player){readyTimer=setTimeout(()=>addFallback('YouTube player API load nahi hui · Internet/HTTPS check karo'),12000);return}
+  try{activePromoPlayer=new YT.Player(id,{events:{onReady:ev=>{clearTimeout(readyTimer);videoDuration=ev.target.getDuration()||p.seconds;setProgress(0);ev.target.playVideo();promoPoll=setInterval(()=>{if(ended)return;let current=0;try{current=ev.target.getCurrentTime()||0}catch(e){}elapsed=Math.max(elapsed,current);setProgress(elapsed)},200)},onStateChange:ev=>{if(ev.data===YT.PlayerState.ENDED)unlock()},onError:ev=>{addFallback('YouTube player error '+ev.data+' · Is video ko embed karne ki permission nahi ho sakti')}}})}catch(e){addFallback('YouTube player configuration error · HTTPS hosting check karo')}
+ };
+ readyTimer=setTimeout(()=>addFallback('Player response nahi aaya · HTTPS hosting / video permission check karo'),15000);
+ if(window.YT&&window.YT.Player)initYT();
+ else{if(!document.getElementById('youtubeIframeApi')){const api=document.createElement('script');api.id='youtubeIframeApi';api.src='https://www.youtube.com/iframe_api';api.onerror=()=>addFallback('YouTube API load nahi hui · Internet connection check karo');document.head.appendChild(api)}
+  const old=window.onYouTubeIframeAPIReady;window.onYouTubeIframeAPIReady=function(){if(typeof old==='function')old();initYT()};}
+}
+const originalTapRows={};
+document.querySelectorAll('.tap-panel').forEach(panel=>{const row=panel.querySelector('.vid-row');if(row)originalTapRows[panel.dataset.panel]=row.innerHTML});
+function drawPromos(){
+ sortPromos();
+ [1,2,3].forEach(tap=>{
+  const panel=document.querySelector('.tap-panel[data-panel="'+tap+'"]');if(!panel)return;
+  const row=panel.querySelector('.vid-row');row.innerHTML=originalTapRows[String(tap)]||'';
+  const firstDemoCard=row.firstChild;
+  const list=promotions.filter(p=>p.tap===tap);
+  list.forEach(p=>{
+   const card=document.createElement('div');card.className='promo-card';card.dataset.promoId=p.id;
+   const claimed=!!(p.claimed&&p.claimed.includes(deviceUserKey));
+   card.innerHTML='<div class="vid-meta"><span class="promo-heading">Promoted video</span><span class="promo-tier-tag">TAP '+tap+'</span></div><div class="vid-meta"><span class="promo-title"></span><span class="vid-pay">+'+p.seconds+' coins</span></div><div class="video-progress-wrap"><div class="video-progress-head"><span class="watch-label">Watch progress</span><span class="watch-time">0:00 / '+formatTime(p.seconds)+'</span></div><div class="video-progress-track"><div class="video-progress-fill"></div></div></div><div class="player-slot"></div><button class="promo-claim" disabled>'+(claimed?'Claimed ✓':'Watch video to unlock claim')+'</button>';
+   card.querySelector('.promo-title').textContent=p.title||'YouTube Video';
+   const claim=card.querySelector('.promo-claim');
+   if(claimed){claim.disabled=true;card.classList.add('done')}
+   else{
+    claim.addEventListener('click',()=>{if(!card.dataset.ready)return;showPromoReward(p,card)});
+    const play=document.createElement('button');play.type='button';play.className='promo-claim';play.textContent='▶ Play video';play.addEventListener('click',()=>startPromoPlayer(p,card));card.querySelector('.player-slot').appendChild(play);
+   }
+   row.insertBefore(card,firstDemoCard);
+  });
+ });
+}
+document.getElementById('promoteSubmit').addEventListener('click',()=>{
+ const videoId=getYoutubeId(document.getElementById('videoLink').value.trim());
+ const views=Number(viewsRange.value),seconds=Number(durationRange.value),coins=views*seconds;
+ const tap=Number(document.getElementById('promoTapSelect').value),minimum=({1:60,2:500,3:1000})[tap]||60;
+ if(!videoId){toast('Valid YouTube link paste karo (youtube.com/watch, youtu.be ya Shorts)');return}
+ if(coins<minimum){toast('TAP '+tap+' ke liye minimum '+minimum.toLocaleString('en-IN')+' coins chahiye');return}
+ if(data.balance<coins){toast('Wallet mein coins kam hain. Required: '+coins.toLocaleString('en-IN'));return}
+ data.balance-=coins;save();
+ promotions.push({id:'p'+Date.now()+'_'+Math.random().toString(36).slice(2,7),videoId,title:'YouTube Video · '+videoId,views,seconds,coins,tap,createdAt:Date.now(),claimed:[]});
+ savePromotions();render();drawPromos();document.getElementById('videoLink').value='';
+ document.querySelectorAll('.nav-btn').forEach(b=>b.classList.toggle('active',b.dataset.page==='home'));
+ document.querySelectorAll('.page').forEach(pg=>pg.classList.toggle('active',pg.id==='home'));
+ document.querySelectorAll('.home-tab').forEach(b=>b.classList.toggle('active',Number(b.dataset.homeTab)===tap));
+ document.querySelectorAll('.tap-panel').forEach(pg=>pg.classList.toggle('active',Number(pg.dataset.panel)===tap));
+ toast('Video added to TAP '+tap+' · '+coins+' coins promoted!');
+});
+function updatePromoteCalculator(){
+ const views=Number(viewsRange.value),seconds=Number(durationRange.value),coins=views*seconds;
+ document.getElementById('viewsValue').textContent=views.toLocaleString('en-IN');document.getElementById('durationValue').textContent=seconds.toLocaleString('en-IN');
+ document.getElementById('coinCost').innerHTML=coins.toLocaleString('en-IN')+' <small>COINS</small>';
+ const selected=Number(document.getElementById('promoTapSelect').value),minimum=({1:60,2:500,3:1000})[selected]||60;document.getElementById('promoteTierNote').textContent=coins>=minimum?'Selected: TAP '+selected+' · '+coins.toLocaleString('en-IN')+' coins. Higher coin spend ranks your video higher in this section.':'TAP '+selected+' ke liye '+minimum.toLocaleString('en-IN')+' coins minimum chahiye. Current cost: '+coins.toLocaleString('en-IN')+' coins.';
+ paintRange(viewsRange);paintRange(durationRange);
+}
+viewsRange.addEventListener('input',updatePromoteCalculator);durationRange.addEventListener('input',updatePromoteCalculator);document.getElementById('promoTapSelect').addEventListener('change',updatePromoteCalculator);
+updatePromoteCalculator();drawPromos();
+</script>
+</body>
+</html>
